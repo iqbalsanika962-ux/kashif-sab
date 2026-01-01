@@ -42,6 +42,7 @@
             font-size: 1.1rem; cursor: pointer;
             box-shadow: 0 10px 20px rgba(108, 92, 231, 0.4);
             transition: 0.3s;
+            margin-top: 20px;
         }
 
         /* --- Music Section --- */
@@ -62,7 +63,7 @@
         .play-btn { font-size: 3rem; color: var(--primary); cursor: pointer; margin: 15px 0; }
 
         /* --- Memory Section --- */
-        .memory-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px; }
+        .memory-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 30px; }
         .flip-card { height: 320px; perspective: 1000px; cursor: pointer; }
         .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
         .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
@@ -73,7 +74,7 @@
         }
         .flip-card-back { 
             background: var(--primary); color: white; transform: rotateY(180deg); 
-            display: flex; align-items: center; padding: 20px; font-style: italic; 
+            display: flex; align-items: center; justify-content: center; padding: 20px; font-style: italic; 
         }
         .flip-card-front img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -82,26 +83,34 @@
             display: none; position: fixed; top:0; left:0; width:100%; height:100%;
             background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center;
         }
-        #preview-modal img { max-width: 90%; max-height: 80%; border-radius: 10px; }
+        #preview-modal img { max-width: 90%; max-height: 80%; border-radius: 10px; border: 3px solid white; }
 
-        /* --- REALISTIC ENVELOPE --- */
+        /* --- ENVELOPE (CENTERED) --- */
+        #envelope-section {
+            display: none; 
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+        }
+        #envelope-section.active { display: flex; }
+
         .envelope-container {
             position: relative; width: 300px; height: 200px;
-            margin: 100px auto; perspective: 1000px; cursor: pointer;
+            perspective: 1000px; cursor: pointer;
+            margin: 50px auto;
         }
         .envelope {
             position: absolute; bottom: 0; width: 100%; height: 100%;
             background: var(--env-color); border-radius: 0 0 10px 10px;
             z-index: 2; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
-        /* Top Flap */
         .flap {
             position: absolute; top: 0; width: 0; height: 0;
             border-left: 150px solid transparent; border-right: 150px solid transparent;
             border-top: 100px solid var(--env-dark);
             transform-origin: top; transition: 0.5s; z-index: 4;
         }
-        /* Side folds */
         .envelope::after {
             content: ''; position: absolute; bottom: 0; left: 0;
             border-left: 150px solid rgba(255,255,255,0.1);
@@ -113,6 +122,7 @@
             position: absolute; bottom: 5px; left: 10px; width: 280px; height: 180px;
             background: white; z-index: 1; transition: 0.5s; padding: 20px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1); overflow: hidden;
+            text-align: center;
         }
         .envelope-container.open .flap { transform: rotateX(180deg); z-index: 1; }
         .envelope-container.open .letter { transform: translateY(-120px); z-index: 3; height: 260px; }
@@ -130,30 +140,30 @@
         <!-- 1. GREETING -->
         <section id="welcome" class="active">
             <h1 class="hero-text">Happy New Year<br><span style="color:var(--primary)">Muhammad Kashif</span></h1>
-            <button class="btn-glow" onclick="showSection('music-section')">Start Journey <i class="fas fa-play"></i></button>
+            <button class="btn-glow" onclick="showSection('music-section')">Next <i class="fas fa-arrow-right"></i></button>
         </section>
 
         <!-- 2. MUSIC -->
         <section id="music-section">
-            <h2 style="margin-bottom: 30px;">Pick your New Year Vibe</h2>
+            <h2 style="margin-bottom: 30px;">Choose a Music</h2>
             <div class="music-grid">
                 <div class="music-card" id="card-1">
-                    <img src="https://images.unsplash.com/photo-1496293455970-f8581aae0e3c?w=400" class="cover-img">
-                    <h3>Chill Morning</h3>
+                    <img src="1.jpg" class="cover-img" onerror="this.src='https://images.unsplash.com/photo-1496293455970-f8581aae0e3c?w=400'">
+                    <h3>Song One</h3>
                     <i class="fas fa-play-circle play-btn" onclick="togglePlay(1)"></i>
-                    <audio id="audio-1" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+                    <audio id="audio-1" src="music1.mp3"></audio>
                 </div>
                 <div class="music-card" id="card-2">
-                    <img src="https://images.unsplash.com/photo-1514525253361-bee8718a7439?w=400" class="cover-img">
-                    <h3>Party Energy</h3>
+                    <img src="2.jpg" class="cover-img" onerror="this.src='https://images.unsplash.com/photo-1514525253361-bee8718a7439?w=400'">
+                    <h3>Song Two</h3>
                     <i class="fas fa-play-circle play-btn" onclick="togglePlay(2)"></i>
-                    <audio id="audio-2" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"></audio>
+                    <audio id="audio-2" src="music2.mp3"></audio>
                 </div>
                 <div class="music-card" id="card-3">
-                    <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=400" class="cover-img">
-                    <h3>Motivation</h3>
+                    <img src="3.jpg" class="cover-img" onerror="this.src='https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=400'">
+                    <h3>Song Three</h3>
                     <i class="fas fa-play-circle play-btn" onclick="togglePlay(3)"></i>
-                    <audio id="audio-3" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"></audio>
+                    <audio id="audio-3" src="music3.mp3"></audio>
                 </div>
             </div>
             <br><br>
@@ -162,42 +172,44 @@
 
         <!-- 3. MEMORIES -->
         <section id="memories-section">
-            <h2>Memories & Blessings</h2>
-            <p style="color: #666;">Double-tap to preview photo | Tap to see blessing</p>
+            <h2>Our Memories</h2>
+            <p style="color: #666; margin-bottom: 20px;">Double-tap for Full Preview | Single-tap for Blessing</p>
             <div class="memory-grid">
-                <!-- Card 1 -->
-                <div class="flip-card" onclick="this.classList.toggle('flipped')" ondblclick="previewImg('https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800')">
+                <!-- Card 1-6 -->
+                <div class="flip-card" onclick="this.classList.toggle('flipped')" ondblclick="previewImg('1.jpg')">
                     <div class="flip-card-inner">
-                        <div class="flip-card-front"><img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400"></div>
-                        <div class="flip-card-back">May your life be as colorful as a festival!</div>
+                        <div class="flip-card-front"><img src="1.jpg" onerror="this.src='https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400'"></div>
+                        <div class="flip-card-back">May your year be filled with laughter!</div>
                     </div>
                 </div>
-                <!-- Card 2 -->
-                <div class="flip-card" onclick="this.classList.toggle('flipped')" ondblclick="previewImg('https://images.unsplash.com/photo-1467810563316-b5476525c0f9?w=800')">
+                <div class="flip-card" onclick="this.classList.toggle('flipped')" ondblclick="previewImg('2.jpg')">
                     <div class="flip-card-inner">
-                        <div class="flip-card-front"><img src="https://images.unsplash.com/photo-1467810563316-b5476525c0f9?w=400"></div>
-                        <div class="flip-card-back">Wishing you success in every new venture.</div>
+                        <div class="flip-card-front"><img src="2.jpg" onerror="this.src='https://images.unsplash.com/photo-1467810563316-b5476525c0f9?w=400'"></div>
+                        <div class="flip-card-back">Wishing you massive success in 2026!</div>
                     </div>
                 </div>
-                <!-- Card 3 -->
-                <div class="flip-card" onclick="this.classList.toggle('flipped')" ondblclick="previewImg('https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800')">
+                <div class="flip-card" onclick="this.classList.toggle('flipped')" ondblclick="previewImg('3.jpg')">
                     <div class="flip-card-inner">
-                        <div class="flip-card-front"><img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?w=400"></div>
-                        <div class="flip-card-back">Stay healthy and stay blessed always.</div>
+                        <div class="flip-card-front"><img src="3.jpg" onerror="this.src='https://images.unsplash.com/photo-1513151233558-d860c5398176?w=400'"></div>
+                        <div class="flip-card-back">Health and Wealth to you, Kashif!</div>
                     </div>
                 </div>
-                <!-- Card 4 -->
-                <div class="flip-card" onclick="this.classList.toggle('flipped')" ondblclick="previewImg('https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800')">
+                <div class="flip-card" onclick="this.classList.toggle('flipped')" ondblclick="previewImg('4.jpg')">
                     <div class="flip-card-inner">
-                        <div class="flip-card-front"><img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=400"></div>
-                        <div class="flip-card-back">May happiness knock on your door every day.</div>
+                        <div class="flip-card-front"><img src="4.jpg" onerror="this.src='https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=400'"></div>
+                        <div class="flip-card-back">Keep shining like a star!</div>
                     </div>
                 </div>
-                <!-- Card 5 -->
-                <div class="flip-card" onclick="this.classList.toggle('flipped')" ondblclick="previewImg('https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?w=800')">
+                <div class="flip-card" onclick="this.classList.toggle('flipped')" ondblclick="previewImg('5.jpg')">
                     <div class="flip-card-inner">
-                        <div class="flip-card-front"><img src="https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?w=400"></div>
-                        <div class="flip-card-back">To another year of great friendship!</div>
+                        <div class="flip-card-front"><img src="5.jpg" onerror="this.src='https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?w=400'"></div>
+                        <div class="flip-card-back">A year of new adventures awaits!</div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="this.classList.toggle('flipped')" ondblclick="previewImg('6.jpg')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front"><img src="6.jpg" onerror="this.src='https://images.unsplash.com/photo-1493225255756-d9584f8606e9?w=400'"></div>
+                        <div class="flip-card-back">Stay blessed and stay happy!</div>
                     </div>
                 </div>
             </div>
@@ -205,21 +217,22 @@
             <button class="btn-glow" onclick="showSection('envelope-section')">Open Special Letter <i class="fas fa-envelope-open"></i></button>
         </section>
 
-        <!-- 4. ENVELOPE -->
+        <!-- 4. ENVELOPE (Perfectly Centered) -->
         <section id="envelope-section">
-            <h2>Tap to Open</h2>
+            <h2 style="margin-bottom: 20px;">For Muhammad Kashif</h2>
             <div class="envelope-container" id="env-cont" onclick="this.classList.toggle('open')">
                 <div class="flap"></div>
                 <div class="envelope"></div>
                 <div class="letter">
-                    <h3 style="color:var(--env-color)">Happy 2024!</h3>
-                    <p style="margin-top:15px; font-size: 0.9rem; line-height: 1.6;">
-                        Dear Kashif,<br>
-                        May this year bring you closer to your dreams. You are a true gem and I wish you all the best.
+                    <h3 style="color:var(--env-color); margin-bottom: 10px;">Happy 2026!</h3>
+                    <p style="font-size: 0.9rem; line-height: 1.5; color: #333;">
+                        Dear Kashif,<br><br>
+                        May this New Year bring you closer to your dreams. You are a true inspiration. Keep smiling!
                     </p>
-                    <h4 style="margin-top: 25px;">- From Ali with Love</h4>
+                    <h4 style="margin-top: 20px; color: var(--primary);">- Blessings from Ali</h4>
                 </div>
             </div>
+            <p style="color: #888; margin-top: 20px;">(Click the envelope to open)</p>
         </section>
     </div>
 
@@ -248,7 +261,7 @@
             }
 
             if (audio.paused) {
-                audio.play();
+                audio.play().catch(e => console.log("Audio play blocked by browser"));
                 btn.className = 'fas fa-pause-circle play-btn';
                 currentPlayingId = id;
             } else {
@@ -260,9 +273,7 @@
             audio.onended = () => {
                 btn.className = 'fas fa-play-circle play-btn';
                 currentPlayingId = null;
-                if(audio.parentElement.classList.contains('mini-player')) {
-                    audio.parentElement.style.display = 'none';
-                }
+                // If it's the mini player, we keep it there but stopped
             };
         }
 
@@ -280,8 +291,7 @@
             const modalImg = document.getElementById('modal-img');
             modal.style.display = 'flex';
             modalImg.src = src;
-            // Prevent the click event from triggering the flip
-            event.stopPropagation();
+            event.stopPropagation(); // Prevents flipping the card when double clicking
         }
     </script>
 </body>
